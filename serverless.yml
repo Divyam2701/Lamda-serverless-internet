@@ -1,0 +1,33 @@
+service: express-lambda
+
+frameworkVersion: '^4'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-west-1
+  stage: dev
+  environment:
+    REGION: us-west-1
+    SECRET_NAME: rds-db-credentials
+  # VPC configuration
+  vpc:
+    subnetIds:
+      - subnet-06983f46826a6e2a0   # Private Subnet 1
+      - subnet-04bc90593806109a6   # Private Subnet 2
+    securityGroupIds:
+      - sg-05cbdbd8ec2bb9f45       # Security Group
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "secretsmanager:GetSecretValue"
+      Resource:
+        - "arn:aws:secretsmanager:us-west-1:971937583465:secret:rds-db-credentials*"
+
+functions:
+  app:
+    handler: index.handler
+    events:
+      - httpApi:
+          path: /
+          method: GET
