@@ -22,7 +22,7 @@ provider:
       Action:
         - "secretsmanager:GetSecretValue"
       Resource:
-        - "arn:aws:secretsmanager:us-west-1:971937583465:secret:rds-db-credentials*"
+        - "arn:aws:secretsmanager:us-west-1:<AWS-Account-number>:secret:rds-db-credentials*"
 
 functions:
   app:
